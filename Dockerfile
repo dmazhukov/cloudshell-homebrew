@@ -29,5 +29,5 @@ RUN git clone https://github.com/Homebrew/brew /home/linuxbrew/.linuxbrew/Homebr
 # 1. Commit your changes locally: git commit -a
 # 2. Push your changes upstream: git push origin master
 
-# This triggers a rebuild of your image hosted at gcr.io/root-cargo-209001/cs7.
-# You can find the Cloud Source Repository hosting this file at https://source.developers.google.com/p/root-cargo-209001/r/cs7
+# This triggers a rebuild of your image hosted at gcr.io/#######.
+# You can find the Cloud Source Repository hosting this file at https://source.developers.google.com/p/########
