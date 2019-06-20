@@ -1,18 +1,20 @@
-  const { events, Job, Group } = require("brigadier")
+  const { events, Job, Group } = require("@brigadecore/brigadier")
   // const request = require('request');
 
   var image_name = "cloudshell-homebrew"
-  var docker_registry ="dmazhukov"
+  var docker_registry ="docker.io/dmazhukov"
   var full_image_name = docker_registry + "/" + image_name
 
-  events.on("push", (e, p) => {
+  events.on("exec", (e, p) => {
     // extract parameters
     var payload = JSON.parse(e.payload)
+    console.log(payload)
     // var user = payload.actor.display_name
     // var branch = payload.push.changes[0].new.name
     // var commit_message = payload.push.changes[0].new.target.message
-    var tag = payload.push.changes[0].new.target.hash.substring(0, 7);
-    commit_link = payload.push.changes[0].new.target.links.html.href
+    // var tag = payload.push.changes[0].new.target.hash.substring(0, 7);
+    var tag = payload.after
+    commit_link = payload.head_commit.url
     var full_image_name_with_tag= full_image_name + ":" + tag
     console.log(full_image_name_with_tag)
 
@@ -23,7 +25,10 @@
     one.args=[
       "--dockerfile=/kaniko/buildcontext/Dockerfile",
       "--context=/kaniko/buildcontext",
-      `--destination=${full_image_name_with_tag}`
+      `--destination=${full_image_name_with_tag}`,
+      "--no-push",
+      "--cache=true",
+      "--cache-repo=${full_image_name}"
     ]
     Group.runEach([one])
   })
